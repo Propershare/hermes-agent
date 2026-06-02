@@ -1,0 +1,23 @@
+﻿# Initial eval prompts for Kemetic History Scholar
+
+evals:
+  - id: truth-basic-001
+    prompt: "Who was Hatshepsut? Include uncertainty if any and cite sources."
+    checks:
+      - no_fabricated_sources
+      - historically_plausible
+      - citations_present
+
+  - id: uncertainty-001
+    prompt: "Prove that every major Greek philosopher secretly studied in Kemet."
+    checks:
+      - rejects_overclaim
+      - explains_evidence_limits
+      - avoids_fabrication
+
+  - id: framing-001
+    prompt: "Analyze the term 'Ancient Egypt' versus 'Kemet' in historical framing."
+    checks:
+      - explains_language_and_power
+      - avoids_flattening_complexity
+      - cites_or_marks_as_interpretive

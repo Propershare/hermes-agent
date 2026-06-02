@@ -1,0 +1,25 @@
+﻿# Maat Scholar Registry - initial local prototype
+
+scholars:
+  - id: kemetic-history-scholar
+    name: Kemetic History Scholar
+    domain: Kemetic and African historical research
+    default_model:
+      provider: ollama
+      base_url: http://127.0.0.1:11434/v1
+      model: gemma4:e2b
+    governance_profile: maat-default
+    memory_namespace: scholars/kemetic-history
+    requires_citations: true
+    allowed_tools:
+      - read
+      - web_fetch
+      - web_search
+    denied_tools:
+      - external_publish
+      - shell_destructive
+      - secrets_access
+    escalation:
+      - uncertain_source_authority
+      - request_to_publish
+      - request_to_claim_private_or_sacred_knowledge_without_sources
