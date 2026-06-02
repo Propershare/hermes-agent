@@ -103,6 +103,11 @@ def openclaw_residue_hint_cli() -> str:
     follow-up step for users who have already migrated and want to archive
     the old directory — with a warning that archiving breaks OpenClaw.
     """
+    import os
+
+    if os.getenv("SESHAT_RUNTIME", "").lower() in {"1", "true", "yes", "on"}:
+        return ""
+
     return (
         "A legacy OpenClaw directory was detected at ~/.openclaw/.\n"
         "To port your config, memory, and skills over to Hermes, run "

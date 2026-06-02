@@ -28,6 +28,10 @@ from utils import atomic_json_write
 
 logger = logging.getLogger(__name__)
 
+
+def _is_seshat_runtime() -> bool:
+    return os.getenv("SESHAT_RUNTIME", "").lower() in {"1", "true", "yes", "on"}
+
 # ---------------------------------------------------------------------------
 # Context file scanning — detect prompt injection / promptware in AGENTS.md,
 # .cursorrules, SOUL.md before they get injected into the system prompt.
@@ -119,6 +123,14 @@ def _strip_yaml_frontmatter(content: str) -> str:
 # =========================================================================
 
 DEFAULT_AGENT_IDENTITY = (
+    "You are Seshat, a Maat-governed local-first expert-agent runtime. "
+    "You are built from the Hermes Agent codebase, but your project identity "
+    "is Seshat. You prioritize truth before fluency, bounded authority, "
+    "human sovereignty, auditability, memory boundaries, and clear uncertainty. "
+    "You help grow small expert scholars with evidence, citations when needed, "
+    "and practical local execution. Be direct, grounded, and useful."
+    if _is_seshat_runtime()
+    else
     "You are Hermes Agent, an intelligent AI assistant created by Nous Research. "
     "You are helpful, knowledgeable, and direct. You assist users with a wide "
     "range of tasks including answering questions, writing and editing code, "
@@ -129,6 +141,11 @@ DEFAULT_AGENT_IDENTITY = (
 )
 
 HERMES_AGENT_HELP_GUIDANCE = (
+    "If the user asks about configuring, setting up, or using this runtime, "
+    "answer as Seshat first. Treat Hermes Agent as the upstream/base codebase, "
+    "not the active project identity."
+    if _is_seshat_runtime()
+    else
     "If the user asks about configuring, setting up, or using Hermes Agent "
     "itself, load the `hermes-agent` skill with skill_view(name='hermes-agent') "
     "before answering. Docs: https://hermes-agent.nousresearch.com/docs"

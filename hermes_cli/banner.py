@@ -403,7 +403,12 @@ def get_latest_release_tag(repo_dir: Optional[Path] = None) -> Optional[tuple]:
 
 def format_banner_version_label() -> str:
     """Return the version label shown in the startup banner title."""
-    base = f"Hermes Agent v{VERSION} ({RELEASE_DATE})"
+    try:
+        from hermes_cli.seshat_runtime import project_name
+        _project = project_name("Hermes Agent")
+    except Exception:
+        _project = "Hermes Agent"
+    base = f"{_project} v{VERSION} ({RELEASE_DATE})"
     state = get_git_banner_state()
     if not state:
         return base
@@ -542,7 +547,12 @@ def build_welcome_banner(console: "Console", model: str, cwd: str,
     if len(model_short) > 28:
         model_short = model_short[:25] + "..."
     ctx_str = f" [dim {dim}]·[/] [dim {dim}]{_format_context_length(context_length)} context[/]" if context_length else ""
-    left_lines.append(f"[{accent}]{model_short}[/]{ctx_str} [dim {dim}]·[/] [dim {dim}]Nous Research[/]")
+    try:
+        from hermes_cli.seshat_runtime import creator_label
+        _creator = creator_label("Nous Research")
+    except Exception:
+        _creator = "Nous Research"
+    left_lines.append(f"[{accent}]{model_short}[/]{ctx_str} [dim {dim}]·[/] [dim {dim}]{_creator}[/]")
 
     if os.getenv("HERMES_YOLO_MODE"):
         left_lines.append(f"[bold red]⚠ YOLO mode[/] [dim {dim}]— all approval prompts bypassed[/]")
@@ -649,7 +659,15 @@ def build_welcome_banner(console: "Console", model: str, cwd: str,
                 skills_str = skills_str[:47] + "..."
             right_lines.append(f"[dim {dim}]{category}:[/] [{text}]{skills_str}[/]")
     else:
-        right_lines.append(f"[dim {dim}]No skills installed[/]")
+        try:
+            from hermes_cli.seshat_runtime import is_seshat_runtime
+            _is_seshat = is_seshat_runtime()
+        except Exception:
+            _is_seshat = False
+        if _is_seshat:
+            right_lines.append(f"[dim {dim}]Seshat skill bridge not connected yet[/]")
+        else:
+            right_lines.append(f"[dim {dim}]No skills installed[/]")
 
     right_lines.append("")
     mcp_connected = sum(1 for s in mcp_status if s["connected"]) if mcp_status else 0

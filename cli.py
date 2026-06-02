@@ -2760,11 +2760,19 @@ def _build_compact_banner() -> str:
     title_color = _skin.get_color("banner_title", "#FFBF00") if _skin else "#FFBF00"
     dim_color = _skin.get_color("banner_dim", "#B8860B") if _skin else "#B8860B"
 
-    if skin_name == "default":
+    try:
+        from hermes_cli.seshat_runtime import creator_label, is_seshat_runtime, project_name
+        _is_seshat = is_seshat_runtime()
+    except Exception:
+        _is_seshat = False
+        project_name = lambda default="Hermes Agent": default
+        creator_label = lambda default="Nous Research": default
+
+    if skin_name == "default" and not _is_seshat:
         line1 = "⚕ NOUS HERMES - AI Agent Framework"
         tiny_line = "⚕ NOUS HERMES"
     else:
-        agent_name = _skin.get_branding("agent_name", "Hermes Agent") if _skin else "Hermes Agent"
+        agent_name = project_name(_skin.get_branding("agent_name", "Hermes Agent") if _skin else "Hermes Agent")
         line1 = f"{agent_name} - AI Agent Framework"
         tiny_line = agent_name
 
@@ -2772,13 +2780,18 @@ def _build_compact_banner() -> str:
         from hermes_cli import __release_date__ as _release_date
         from hermes_cli import __version__ as _version
 
-        version_line = f"Hermes Agent v{_version} ({_release_date})"
+        try:
+            from hermes_cli.seshat_runtime import project_name
+            _project = project_name("Hermes Agent")
+        except Exception:
+            _project = "Hermes Agent"
+        version_line = f"{_project} v{_version} ({_release_date})"
     else:
         version_line = format_banner_version_label()
 
     w = min(shutil.get_terminal_size().columns - 2, 88)
     if w < 30:
-        return f"\n[{title_color}]{tiny_line}[/] [dim {dim_color}]- Nous Research[/]\n"
+        return f"\n[{title_color}]{tiny_line}[/] [dim {dim_color}]- {creator_label('Nous Research')}[/]\n"
 
     inner = w - 2  # inside the box border
     bar = "═" * w
@@ -4479,6 +4492,11 @@ class HermesCLI:
                 from hermes_cli.skin_engine import get_active_skin
                 _skin = get_active_skin()
                 label = _skin.get_branding("response_label", "⚕ Hermes")
+                try:
+                    from hermes_cli.seshat_runtime import response_label as _seshat_response_label
+                    label = _seshat_response_label(label)
+                except Exception:
+                    pass
                 _text_hex = _skin.get_color("banner_text", "#FFF8DC")
             except Exception:
                 label = "⚕ Hermes"
@@ -9158,6 +9176,11 @@ class HermesCLI:
                         from hermes_cli.skin_engine import get_active_skin
                         _skin = get_active_skin()
                         label = _skin.get_branding("response_label", "⚕ Hermes")
+                        try:
+                            from hermes_cli.seshat_runtime import response_label as _seshat_response_label
+                            label = _seshat_response_label(label)
+                        except Exception:
+                            pass
                         _resp_color = _maybe_remap_for_light_mode(_skin.get_color("response_border", "#CD7F32"))
                         _resp_text = _maybe_remap_for_light_mode(_skin.get_color("banner_text", "#FFF8DC"))
                     except Exception:
@@ -12445,10 +12468,20 @@ class HermesCLI:
                     from hermes_cli.skin_engine import get_active_skin
                     _skin = get_active_skin()
                     label = _skin.get_branding("response_label", "⚕ Hermes")
+                    try:
+                        from hermes_cli.seshat_runtime import response_label as _seshat_response_label
+                        label = _seshat_response_label(label)
+                    except Exception:
+                        pass
                     _resp_color = _maybe_remap_for_light_mode(_skin.get_color("response_border", "#CD7F32"))
                     _resp_text = _maybe_remap_for_light_mode(_skin.get_color("banner_text", "#FFF8DC"))
                 except Exception:
-                    label = "⚕ Hermes"
+                    label = "Hermes"
+                    try:
+                        from hermes_cli.seshat_runtime import response_label as _seshat_response_label
+                        label = _seshat_response_label(label)
+                    except Exception:
+                        pass
                     _resp_color = _maybe_remap_for_light_mode("#CD7F32")
                     _resp_text = _maybe_remap_for_light_mode("#FFF8DC")
 
@@ -12861,9 +12894,19 @@ class HermesCLI:
             from hermes_cli.skin_engine import get_active_skin
             _welcome_skin = get_active_skin()
             _welcome_text = _welcome_skin.get_branding("welcome", "Welcome to Hermes Agent! Type your message or /help for commands.")
+            try:
+                from hermes_cli.seshat_runtime import welcome as _seshat_welcome
+                _welcome_text = _seshat_welcome(_welcome_text)
+            except Exception:
+                pass
             _welcome_color = _welcome_skin.get_color("banner_text", "#FFF8DC")
         except Exception:
             _welcome_text = "Welcome to Hermes Agent! Type your message or /help for commands."
+            try:
+                from hermes_cli.seshat_runtime import welcome as _seshat_welcome
+                _welcome_text = _seshat_welcome(_welcome_text)
+            except Exception:
+                pass
             _welcome_color = "#FFF8DC"
         self._console_print(f"[{_welcome_color}]{_welcome_text}[/]")
 
@@ -12900,7 +12943,9 @@ class HermesCLI:
                     _resid_color = _welcome_skin.get_color("banner_dim", "#B8860B")
                 except Exception:
                     _resid_color = "#B8860B"
-                self._console_print(f"[{_resid_color}]{openclaw_residue_hint_cli()}[/]")
+                _residue_hint = openclaw_residue_hint_cli()
+                if _residue_hint:
+                    self._console_print(f"[{_resid_color}]{_residue_hint}[/]")
                 try:
                     from hermes_cli.config import get_config_path as _get_cfg_path_resid
                     mark_seen(_get_cfg_path_resid(), OPENCLAW_RESIDUE_FLAG)
