@@ -27,6 +27,13 @@ The purpose is not to make agents more autonomous for its own sake. The purpose 
 7. **Maat alignment**  
    Truth, balance, order, reciprocity, justice, and right action are treated as engineering constraints, not decoration.
 
+## Start Here
+
+For a portable desktop setup, read:
+
+- [`MAAT-DESKTOP-MEMORY-QUICKSTART.md`](MAAT-DESKTOP-MEMORY-QUICKSTART.md) — how to clone the fork, connect a local model, and create a local long-term memory root.
+- [`MAAT-GATEWAY-BOOTSTRAP.md`](MAAT-GATEWAY-BOOTSTRAP.md) — what any entering agent/LLM should read first and how it should verify memory/status.
+
 ## First Implementation Target
 
 Before training custom models, build the gateway framework:

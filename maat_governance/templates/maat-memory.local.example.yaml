@@ -1,0 +1,50 @@
+﻿# Maat local desktop memory configuration template
+# Copy to: maat-memory.local.yaml
+# Do not commit your personal copy if it contains private paths or database URLs.
+
+version: 1
+
+identity:
+  human_label: "local-human"
+  agent_label: "maat-local-agent"
+
+# Keep memory outside the repo. The repo is code; memory belongs to the human.
+# Windows example: "C:\\Users\\YOUR_NAME\\MaatLab\\memory"
+# macOS/Linux example: "~/MaatLab/memory"
+memory_root: "~/MaatLab/memory"
+
+storage:
+  # Start with files because they are portable and human-readable.
+  # Later options can include sqlite, postgres, pgvector, or a Maat Memory service.
+  backend: "files"
+
+namespaces:
+  semantic: "semantic"
+  episodic: "episodic"
+  audit: "audit"
+  scholars: "scholars"
+
+privacy:
+  store_raw_private_messages: false
+  store_secrets: false
+  require_approval_for_sensitive_memory: true
+  summarize_sensitive_context_by_default: true
+
+retention:
+  episodic_summary_days: 90
+  audit_log_days: 365
+
+local_model:
+  provider: "ollama"
+  base_url: "http://127.0.0.1:11434/v1"
+  model: "llama3.2:3b"
+
+bootstrap:
+  read_first:
+    - "docs/MAAT-GATEWAY-BOOTSTRAP.md"
+    - "docs/MAAT-DESKTOP-MEMORY-QUICKSTART.md"
+
+healthcheck:
+  require_memory_root_exists: true
+  require_write_test: true
+  require_audit_append_test: true
