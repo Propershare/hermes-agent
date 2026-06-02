@@ -67,6 +67,13 @@ HERMES_AGENT_LOGO = """[bold #FFD700]██╗  ██╗███████�
 [#CD7F32]██║  ██║███████╗██║  ██║██║ ╚═╝ ██║███████╗███████║      ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║[/]
 [#CD7F32]╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝      ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝[/]"""
 
+SESHAT_LOGO = """[bold #FFD700]███████╗███████╗███████╗██╗  ██╗ █████╗ ████████╗[/]
+[bold #FFD700]██╔════╝██╔════╝██╔════╝██║  ██║██╔══██╗╚══██╔══╝[/]
+[#FFBF00]███████╗█████╗  ███████╗███████║███████║   ██║[/]
+[#FFBF00]╚════██║██╔══╝  ╚════██║██╔══██║██╔══██║   ██║[/]
+[#CD7F32]███████║███████╗███████║██║  ██║██║  ██║   ██║[/]
+[#CD7F32]╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝[/]"""
+
 HERMES_CADUCEUS = """[#CD7F32]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡀⠀⣀⣀⠀⢀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
 [#CD7F32]⠀⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⣇⠸⣿⣿⠇⣸⣿⣿⣷⣦⣄⡀⠀⠀⠀⠀⠀⠀[/]
 [#FFBF00]⠀⢀⣠⣴⣶⠿⠋⣩⡿⣿⡿⠻⣿⡇⢠⡄⢸⣿⠟⢿⣿⢿⣍⠙⠿⣶⣦⣄⡀⠀[/]
@@ -760,6 +767,12 @@ def build_welcome_banner(console: "Console", model: str, cwd: str,
     term_width = shutil.get_terminal_size().columns
     if term_width >= 95:
         _logo = _bskin.banner_logo if _bskin and hasattr(_bskin, 'banner_logo') and _bskin.banner_logo else HERMES_AGENT_LOGO
+        try:
+            from hermes_cli.seshat_runtime import is_seshat_runtime
+            if is_seshat_runtime():
+                _logo = SESHAT_LOGO
+        except Exception:
+            pass
         console.print(_logo)
         console.print()
     console.print(outer_panel)
