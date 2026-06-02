@@ -1,6 +1,8 @@
-# Maat Gateway Bootstrap Contract
+# Seshat Gateway Bootstrap Contract
 
-Purpose: any agent/LLM entering through the gateway should be able to discover the lab map, memory locations, governance rules, and reporting protocol without guessing.
+Purpose: any agent/LLM entering through the Seshat gateway should be able to discover the lab map, memory locations, governance rules, and reporting protocol without guessing.
+
+Seshat is the project name. Maat Governance is the constitutional/governance layer.
 
 Canonical OpenClaw bootstrap file:
 

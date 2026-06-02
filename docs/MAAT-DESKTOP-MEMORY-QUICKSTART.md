@@ -1,12 +1,12 @@
-# Maat Desktop Long-Term Memory Quickstart
+# Seshat Desktop Long-Term Memory Quickstart
 
-This guide is for anyone who downloads the Hermes/Maat fork and wants to run a local agent with long-term memory on their own desktop.
+This guide is for anyone who downloads **Seshat** — the Hermes/Maat fork — and wants to run a local agent with long-term memory on their own desktop.
 
 The goal: a person should be able to clone the fork, point it at a local model, choose a local memory folder/database, and start building a durable personal/scholar memory without using cloud memory by default.
 
 ## What This Provides
 
-A Maat-governed desktop agent should have:
+A Seshat desktop agent should have:
 
 - a local model connection
 - a local memory root

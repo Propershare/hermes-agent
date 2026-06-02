@@ -1,6 +1,6 @@
 # Maat Governance
 
-Maat Governance is the operating layer for a network of small, local-first expert agents.
+Maat Governance is the constitutional operating layer for **Seshat**: a network of small, local-first expert agents.
 
 The purpose is not to make agents more autonomous for its own sake. The purpose is to make agents more truthful, bounded, useful, auditable, and aligned with human intention.
 
@@ -26,6 +26,14 @@ The purpose is not to make agents more autonomous for its own sake. The purpose 
 
 7. **Maat alignment**  
    Truth, balance, order, reciprocity, justice, and right action are treated as engineering constraints, not decoration.
+
+## Project Name
+
+The project/product name is **Seshat**.
+
+Maat Governance is the underlying constitution, permission model, and audit discipline.
+
+Start with [`SESHAT.md`](SESHAT.md) for the project overview.
 
 ## Start Here
 
